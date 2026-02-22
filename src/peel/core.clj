@@ -13,6 +13,7 @@
             [peel.platforms.meta-ai     :as meta-ai]
             [peel.platforms.huggingchat :as huggingchat]
             [peel.platforms.you         :as you]
+            [peel.platforms.notebooklm  :as notebooklm]
             [clojure.string           :as str])
   (:import [org.jsoup Jsoup]
            [java.io File]))
@@ -29,7 +30,8 @@
    :mistral    mistral/extract
    :meta-ai    meta-ai/extract
    :huggingchat huggingchat/extract
-   :you         you/extract})
+   :you         you/extract
+   :notebooklm  notebooklm/extract})
 
 (defn- die [msg]
   (binding [*out* *err*] (println msg))

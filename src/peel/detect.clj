@@ -14,4 +14,5 @@
     (.selectFirst doc "link[rel=canonical][href*=meta.ai]")               :meta-ai
     (.selectFirst doc "link[rel=canonical][href*=huggingface.co/chat]")   :huggingchat
     (.selectFirst doc "link[rel=canonical][href*=you.com/search]")        :you
+    (.selectFirst doc "link[rel=canonical][href*=notebooklm.google.com]") :notebooklm
     :else                                                    :unknown))

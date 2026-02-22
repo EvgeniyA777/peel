@@ -17,7 +17,8 @@
                           [peel.mistral-test]
                           [peel.meta-ai-test]
                           [peel.huggingchat-test]
-                          [peel.you-test])
+                          [peel.you-test]
+                          [peel.notebooklm-test])
                :task     (do
                            (doseq [f (mapcat (fn [pat] (babashka.fs/glob "test/peel/fixtures" pat))
                                              ["**.md" "**.json" "**.edn"])]
