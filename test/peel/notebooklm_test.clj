@@ -20,4 +20,5 @@
 
 (deftest no-ui-noise
   (h/check-no-noise (notebooklm/extract (h/load-doc sample-path))
-                    ["Pin this message to a Note" "Save message to a note"]))
+                    ["Pin this message to a Note" "Save message to a note"
+                     "1" "2" "3"]))
