@@ -146,7 +146,7 @@ Automatically deletes all `.md`, `.json`, `.edn` from `test/peel/fixtures/` befo
                     ["Copy" "Download"]))  ; strings that must not appear in output
 ```
 
-И добавить namespace в `:requires` задачи `test` в `bb.edn`.
+Also add the namespace to the `:requires` of the `test` task in `bb.edn`.
 
 **`no-ui-noise` test:** update `*-sample.html` — add real toolbar elements (Copy buttons, stats badges) that the extractor should remove. The test verifies their text does not appear in the output.
 
