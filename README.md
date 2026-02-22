@@ -26,6 +26,7 @@ Open the chat in your browser and save the page as a single HTML file. The recom
 | Meta AI | meta.ai | Implemented |
 | HuggingChat | huggingface.co/chat | Implemented |
 | You.com | you.com | Implemented |
+| NotebookLM | notebooklm.google.com | Implemented |
 
 ## Requirements
 

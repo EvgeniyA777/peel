@@ -105,7 +105,7 @@ bb test
 
 Automatically deletes all `.md`, `.json`, `.edn` from `test/peel/fixtures/` before running — each run starts clean.
 
-30 tests, four kinds:
+35 tests, four kinds:
 
 | Test | File | Fixture | Runs without real HTML |
 |---|---|---|---|
@@ -157,6 +157,8 @@ Also add the namespace to the `:requires` of the `test` task in `bb.edn`.
 **Claude** — assistant messages span multiple `.standard-markdown` blocks per turn; they are joined with `\n\n`.
 
 **Google AI** — extracts from Google Search AI Mode (`google.com/search`), not Gemini. Detected separately from `gemini.google.com`.
+
+**NotebookLM** — uses Angular custom elements (`<chat-message>`). Pages without a dialogue (summary-only) have no `<chat-message>` elements and return `[]` naturally. Citation spans (`<span aria-label="N: Source Title">`) must be removed before text extraction. After removal, space-before-punctuation artifacts are fixed with `str/replace #" +([.!?,;:])" "$1"`. The Pin/toolbar is inside `mat-card-actions`.
 
 ## Jsoup quick reference
 
