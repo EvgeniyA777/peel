@@ -103,24 +103,24 @@ Add to the `extractors` map and the `ns` `:require`:
 bb test
 ```
 
-Перед запуском автоматически удаляет все `.md`, `.json`, `.edn` из `test/peel/fixtures/` — каждый прогон с чистого листа.
+Automatically deletes all `.md`, `.json`, `.edn` from `test/peel/fixtures/` before running — each run starts clean.
 
-30 тестов, четыре вида:
+30 tests, four kinds:
 
-| Тест | Файл | Фикстура | Работает без реального HTML |
+| Test | File | Fixture | Runs without real HTML |
 |---|---|---|---|
-| `platform-detection` | `<platform>_test.clj` | реальный HTML (gitignored) | пропускается если файла нет |
-| `extract-messages` | `<platform>_test.clj` | реальный HTML (gitignored) | пропускается если файла нет |
-| `no-ui-noise` | `<platform>_test.clj` | `*-sample.html` (в репо) | всегда |
-| `json-is-pretty-printed` | `output_test.clj` | нет (данные в коде) | всегда |
+| `platform-detection` | `<platform>_test.clj` | real HTML (gitignored) | skipped if file missing |
+| `extract-messages` | `<platform>_test.clj` | real HTML (gitignored) | skipped if file missing |
+| `no-ui-noise` | `<platform>_test.clj` | `*-sample.html` (in repo) | always |
+| `json-is-pretty-printed` | `output_test.clj` | none (inline data) | always |
 
-**Структура тестов:**
-- `test/peel/<platform>_test.clj` — по одному файлу на платформу
-- `test/peel/output_test.clj` — тесты рендеринга (JSON pretty-print и др.)
-- `test/peel/helpers.clj` — общие хелперы: `check-platform`, `check-messages`, `check-no-noise`, `with-fixture`
-- `test/peel/fixtures/*-sample.html` — синтетические HTML с реальными UI-элементами (кнопки Copy, тулбары, бейджи)
+**Test structure:**
+- `test/peel/<platform>_test.clj` — one file per platform
+- `test/peel/output_test.clj` — rendering tests (JSON pretty-print etc.)
+- `test/peel/helpers.clj` — shared helpers: `check-platform`, `check-messages`, `check-no-noise`, `with-fixture`
+- `test/peel/fixtures/*-sample.html` — synthetic HTML with real UI elements (Copy buttons, toolbars, badges)
 
-**При добавлении новой платформы** создать `test/peel/<name>_test.clj`:
+**When adding a new platform** create `test/peel/<name>_test.clj`:
 
 ```clojure
 (ns peel.<name>-test
@@ -140,15 +140,15 @@ bb test
     #(h/check-messages (<name>/extract (h/load-doc fixture-path))
                        4 [:user :assistant :user :assistant])))
 
-;; если экстрактор вырезает UI-шум:
+;; if the extractor removes UI noise:
 (deftest no-ui-noise
   (h/check-no-noise (<name>/extract (h/load-doc sample-path))
-                    ["Copy" "Download"]))  ; строки которых не должно быть в тексте
+                    ["Copy" "Download"]))  ; strings that must not appear in output
 ```
 
 И добавить namespace в `:requires` задачи `test` в `bb.edn`.
 
-**`no-ui-noise` тест:** обновить `*-sample.html` — добавить в HTML реальные элементы тулбара (кнопки Copy, бейджи статистики), которые экстрактор должен вырезать. Тест проверяет что их текст не попал в вывод.
+**`no-ui-noise` test:** update `*-sample.html` — add real toolbar elements (Copy buttons, stats badges) that the extractor should remove. The test verifies their text does not appear in the output.
 
 ## Notes on tricky platforms
 
