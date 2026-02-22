@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="commit-id" content="abc123">
+  <title>DeepSeek Chat Sample</title>
+</head>
+<body>
+  <div class="ds-message d29f3d7d">
+    Write a Python function that checks if a number is prime.
+  </div>
+  <div class="ds-message">
+    Here's a Python function that checks if a number is prime:
+    <div class="md-code-block-banner md-code-block-banner-lite">
+      <span>python</span>
+      <button>Copy</button>
+      <button>Download</button>
+    </div>
+    <pre><code>def is_prime(n: int) -> bool:
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+  </div>
+  <div class="ds-message d29f3d7d">
+    Add a docstring and type hints.
+  </div>
+  <div class="ds-message">
+    Here's the updated function with a docstring:
+    <div class="md-code-block-banner md-code-block-banner-lite">
+      <span>python</span>
+      <button>Copy</button>
+      <button>Download</button>
+    </div>
+    <pre><code>def is_prime(n: int) -> bool:
+    """Return True if n is prime, False otherwise."""
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+  </div>
+</body>
+</html>

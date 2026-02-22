@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="canonical" href="https://chat.mistral.ai/chat/abc123">
+  <title>Mistral Sample</title>
+</head>
+<body>
+  <div data-message-id="1">
+    <span class="whitespace-pre-wrap">Write a Python function that checks if a number is prime.</span>
+  </div>
+  <div data-message-id="2">
+    <div data-testid="text-message-part">
+      Here's a Python function:
+      <div data-exclude-copy="true">
+        <span>python</span>
+        <button aria-label="Copy code to clipboard">Copy</button>
+      </div>
+      <pre><code>def is_prime(n: int) -> bool:
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    </div>
+  </div>
+  <div data-message-id="3">
+    <span class="whitespace-pre-wrap">Add a docstring and type hints.</span>
+  </div>
+  <div data-message-id="4">
+    <div data-testid="text-message-part">
+      Here's the updated function with a docstring:
+      <div data-exclude-copy="true">
+        <span>python</span>
+        <button aria-label="Copy code to clipboard">Copy</button>
+      </div>
+      <pre><code>def is_prime(n: int) -> bool:
+    """Return True if n is prime, False otherwise."""
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    </div>
+  </div>
+</body>
+</html>

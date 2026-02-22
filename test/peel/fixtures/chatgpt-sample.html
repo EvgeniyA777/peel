@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="canonical" href="https://chatgpt.com/c/abc123">
+  <title>ChatGPT Sample</title>
+</head>
+<body>
+  <article data-turn="user">
+    <div class="whitespace-pre-wrap">Write a Python function that checks if a number is prime.</div>
+  </article>
+  <article data-turn="assistant">
+    <div class="markdown">
+      Here's a clean implementation:
+      <div class="bg-token-sidebar-surface-primary">
+        <span>python</span>
+        <button>Copy code</button>
+      </div>
+      <pre><code>def is_prime(n: int) -> bool:
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    </div>
+  </article>
+  <article data-turn="user">
+    <div class="whitespace-pre-wrap">Add a docstring and type hints.</div>
+  </article>
+  <article data-turn="assistant">
+    <div class="markdown">
+      The function already has type hints. Here it is with a full docstring:
+      <div class="bg-token-sidebar-surface-primary">
+        <span>python</span>
+        <button>Copy code</button>
+      </div>
+      <pre><code>def is_prime(n: int) -> bool:
+    """Return True if n is prime, False otherwise."""
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    </div>
+  </article>
+</body>
+</html>

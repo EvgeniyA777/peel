@@ -1,0 +1,26 @@
+{:deps {org.jsoup/jsoup {:mvn/version "1.17.2"}
+        babashka/fs     {:mvn/version "0.5.20"}}
+ :paths ["src" "test"]
+ :tasks {peel {:doc      "Extract chat from HTML file(s)"
+               :requires ([peel.core])
+               :task     (apply peel.core/-main *command-line-args*)}
+         test {:doc      "Run all tests"
+               :requires ([peel.output-test]
+                          [peel.deepseek-test]
+                          [peel.chatgpt-test]
+                          [peel.claude-test]
+                          [peel.grok-test]
+                          [peel.perplexity-test]
+                          [peel.google-ai-test]
+                          [peel.gemini-test]
+                          [peel.copilot-test]
+                          [peel.mistral-test]
+                          [peel.meta-ai-test]
+                          [peel.huggingchat-test]
+                          [peel.you-test])
+               :task     (do
+                           (doseq [f (mapcat (fn [pat] (babashka.fs/glob "test/peel/fixtures" pat))
+                                             ["**.md" "**.json" "**.edn"])]
+                             (babashka.fs/delete f))
+                           (let [r (clojure.test/run-all-tests (re-pattern "peel\\..*-test"))]
+                             (System/exit (if (pos? (+ (:fail r) (:error r))) 1 0))))}}}

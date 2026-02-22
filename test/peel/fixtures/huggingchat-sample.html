@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="canonical" href="https://huggingface.co/chat/conversation/abc123">
+  <title>HuggingChat Sample</title>
+</head>
+<body>
+  <div data-message-id="1">
+    <p class="whitespace-break-spaces">Write a Python function that checks if a number is prime.</p>
+  </div>
+  <div data-message-id="2">
+    <div class="prose">
+      Here's an implementation:
+      <div class="group relative my-4 rounded-lg">
+        <div class="pointer-events-none sticky top-0 w-full">
+          <div class="pointer-events-auto absolute right-2 top-2">
+            <button type="button" title="Copy to clipboard">
+              <div class="relative">
+                <div class="opacity-0">Copied</div>
+              </div>
+            </button>
+          </div>
+        </div>
+        <pre><code>def is_prime(n: int) -> bool:
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+      </div>
+    </div>
+  </div>
+  <div data-message-id="3">
+    <p class="whitespace-break-spaces">Add a docstring and type hints.</p>
+  </div>
+  <div data-message-id="4">
+    <div class="prose">
+      Here's the updated version with a full docstring:
+      <div class="group relative my-4 rounded-lg">
+        <div class="pointer-events-none sticky top-0 w-full">
+          <div class="pointer-events-auto absolute right-2 top-2">
+            <button type="button" title="Copy to clipboard">
+              <div class="relative">
+                <div class="opacity-0">Copied</div>
+              </div>
+            </button>
+          </div>
+        </div>
+        <pre><code>def is_prime(n: int) -> bool:
+    """Return True if n is prime, False otherwise."""
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

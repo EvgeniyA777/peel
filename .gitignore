@@ -1,0 +1,14 @@
+# Real HTML fixtures (personal data, not committed)
+test/peel/fixtures/*.html
+!test/peel/fixtures/*-sample.html
+
+# Generated MD output
+test/peel/fixtures/*.md
+
+# Output directory
+out/
+
+# Babashka/Clojure
+.cpcache/
+.clj-kondo/
+.lsp/

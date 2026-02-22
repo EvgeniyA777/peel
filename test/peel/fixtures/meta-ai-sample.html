@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="canonical" href="https://www.meta.ai/c/abc123">
+  <title>Meta AI Sample</title>
+</head>
+<body>
+  <div class="group/user-message">
+    <div class="bg-fill-secondary">Write a Python function that checks if a number is prime.</div>
+  </div>
+  <div data-testid="assistant-message">
+    Here's a Python function:
+    <div data-streamdown="code-block-header" data-language="python">python</div>
+    <pre><code>def is_prime(n: int) -> bool:
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    <div class="flex items-center justify-between px-4 py-1.5">
+      <span class="text-caption-1">7 lines (7 loc) · 164 B</span>
+      <button aria-label="Copy code">Copy</button>
+    </div>
+  </div>
+  <div class="group/user-message">
+    <div class="bg-fill-secondary">Add a docstring and type hints.</div>
+  </div>
+  <div data-testid="assistant-message">
+    Here it is with a full docstring:
+    <div data-streamdown="code-block-header" data-language="python">python</div>
+    <pre><code>def is_prime(n: int) -> bool:
+    """Return True if n is prime, False otherwise."""
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+    <div class="flex items-center justify-between px-4 py-1.5">
+      <span class="text-caption-1">8 lines (8 loc) · 210 B</span>
+      <button aria-label="Copy code">Copy</button>
+    </div>
+  </div>
+</body>
+</html>
