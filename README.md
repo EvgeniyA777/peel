@@ -4,6 +4,8 @@ Babashka CLI for extracting chat dialogues from saved AI chat web pages into EDN
 
 > **Web versions only.** peel works exclusively with HTML saved from the browser web interface of each platform. Mobile apps, desktop apps, and API responses are not supported.
 
+> **Text-focused.** The current focus is plain text extraction — code blocks are extracted as text without syntax highlighting or formatting. This makes the output well-suited for knowledge bases, RAG pipelines, and text processing.
+
 ## How to get an HTML file
 
 Open the chat in your browser and save the page as a single HTML file. The recommended way is the [SingleFile](https://github.com/gildas-lormeau/SingleFile) browser extension — it packs everything (styles, scripts, images) into one `.html` file. Other browser save methods work too, as long as the full chat DOM is present.
