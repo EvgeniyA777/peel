@@ -30,6 +30,8 @@
                   (do
                     (clean-answer el)
                     {:role :assistant
-                     :text (text/normalize (.text el))})))))
+                     :text (-> (.text el)
+                               (str/replace #" +([.!?,;:])" "$1")
+                               text/normalize)})))))
        (remove (comp str/blank? :text))
        vec))

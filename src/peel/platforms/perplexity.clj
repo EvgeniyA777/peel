@@ -7,19 +7,23 @@
 ;; Both are matched together to preserve DOM order.
 (def ^:private msg-selector "[class*=group/query], .prose")
 
-;; Perplexity renders inline citations as <span data-pplx-citation-url=...>domain</span>
-;; followed by <span class="opacity-50">+N</span> for grouped citations.
-;; Both are noise and should be removed before text extraction.
+;; Perplexity has two citation types:
+;;   [data-pplx-citation] — linked citations with a URL attribute
+;;   span[class*=rounded-badge] — standalone domain badges ("python", "devguide.python")
+;;     without a data-pplx-citation attribute; they appear inline after sentences.
+;; Code blocks are preceded by [data-testid=code-language-indicator] labels ("python" etc.).
 
 (defn extract [^org.jsoup.nodes.Document doc]
   (->> (.select doc msg-selector)
        (map (fn [el]
-              (doseq [cite (.select el "[data-pplx-citation-url]")]
+              (doseq [cite (.select el "[data-pplx-citation], span[class*=rounded-badge]")]
                 (.remove cite))
               (doseq [badge (.select el "span.opacity-50")]
                 (.remove badge))
               (doseq [btn (.select el "button")]
                 (.remove btn))
+              (doseq [lang (.select el "[data-testid=code-language-indicator]")]
+                (.remove lang))
               {:role (if (.contains (.attr el "class") "group/query")
                        :user
                        :assistant)
