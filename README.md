@@ -4,7 +4,7 @@ Babashka CLI for extracting chat dialogues from saved AI chat web pages into EDN
 
 > **Web versions only.** peel works exclusively with HTML files saved from the browser.
 
-> **Text-focused.** The current focus is plain text extraction — code blocks are extracted as text without syntax highlighting or formatting.
+> **Text-focused.** Extracts plain text and code blocks. Code blocks are rendered as fenced Markdown with language identifiers.
 
 ## How to get an HTML file
 
@@ -86,7 +86,7 @@ Each platform is a single file. To add support for a new one, touch three places
   (->> (.select doc "<css-selector>")
        (map (fn [el]
               {:role (if <user-condition?> :user :assistant)
-               :text (text/normalize (.text el))}))
+               :text (text/element->md el)}))
        (remove (comp str/blank? :text))
        vec))
 ```
@@ -107,4 +107,4 @@ Each platform is a single file. To add support for a new one, touch three places
 :<name> <name>/extract
 ```
 
-The `text/normalize` call strips emoji and collapses whitespace — use it on all text. Remove UI noise (buttons, tooltips) with `(.remove el)` before calling `.text`.
+`text/element->md` normalizes text and renders `<pre><code>` as fenced Markdown blocks (with language detection from `language-*`/`lang-*` classes). Buttons are removed automatically. Remove other UI noise (badges, toolbars) with `(.remove el)` before calling it.

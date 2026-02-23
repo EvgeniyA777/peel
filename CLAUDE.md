@@ -28,7 +28,7 @@ Key files:
 - `src/peel/core.clj` — entry point, `extractors` map, file/dir handling
 - `src/peel/detect.clj` — platform detection via Jsoup CSS selectors
 - `src/peel/output.clj` — EDN / JSON / Markdown rendering
-- `src/peel/text.clj` — shared `normalize` fn (strips emoji, collapses whitespace)
+- `src/peel/text.clj` — `normalize` fn (strips emoji, collapses whitespace) and `element->md` fn (extracts text with code blocks as fenced Markdown)
 - `src/peel/platforms/<name>.clj` — one file per platform
 
 ## Data structures
@@ -65,15 +65,15 @@ Three files to touch, always the same pattern:
   (->> (.select doc "<css-selector-for-messages>")
        (map (fn [el]
               {:role (if <user-condition?> :user :assistant)
-               :text (text/normalize (.text el))}))
+               :text (text/element->md el)}))
        (remove (comp str/blank? :text))
        vec))
 ```
 
 - Use Jsoup CSS selectors: `.class`, `[attr]`, `[attr=value]`, `tag[attr*=substr]`
-- Call `text/normalize` on all text (strips emoji, collapses spaces/newlines)
+- Call `text/element->md` on all elements — normalizes text and renders `<pre><code>` as fenced Markdown
 - Return empty strings filtered out via `(remove (comp str/blank? :text))`
-- Remove UI noise (buttons, badges) with `(.remove el)` before calling `.text`
+- Remove UI noise (badges, toolbars) with `(.remove el)` before calling `element->md`; buttons are removed automatically inside `element->md`
 
 ### 2. `src/peel/detect.clj`
 
@@ -165,7 +165,8 @@ Also add the namespace to the `:requires` of the `test` task in `bb.edn`.
 ```clojure
 (.select doc "css")          ; -> Elements (iterable)
 (.selectFirst doc "css")     ; -> Element or nil
-(.text el)                   ; visible text, all descendants
+(.text el)                   ; visible text, all descendants (normalizes whitespace)
+(.wholeText el)              ; visible text, whitespace preserved (use for code content)
 (.attr el "name")            ; attribute value
 (.hasClass el "cls")         ; boolean
 (.remove el)                 ; detach from DOM (mutates)
