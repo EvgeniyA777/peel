@@ -30,11 +30,19 @@
   (or (when code-el (lang-from-classes (.classNames code-el)))
       (lang-from-classes (.classNames pre-el))))
 
+(defn- fence-ticks
+  "Returns a backtick fence string long enough to safely wrap raw code.
+  Uses at least 3 backticks; uses one more than the longest run in raw."
+  [raw]
+  (let [max-run (->> (re-seq #"`+" raw) (map count) (apply max 0))]
+    (apply str (repeat (max 3 (inc max-run)) \`))))
+
 (defn element->md
   "Extracts text from a Jsoup element, rendering <pre><code> blocks as Markdown
   fenced blocks. Non-code text is normalized. Works on a clone; does not mutate el."
   [^Element el]
-  (let [clone  (.clone el)
+  (let [nonce  (Long/toHexString (System/nanoTime))
+        clone  (.clone el)
         fences (atom [])]
     (doseq [btn (.select clone "button")]
       (.remove btn))
@@ -42,15 +50,16 @@
       (let [code  (.selectFirst pre "code")
             lang  (code-lang pre code)
             raw   (if code (.wholeText code) (.wholeText pre))
-            fence (str "```" (or lang "") "\n" raw "\n```")]
-        (swap! fences conj fence)
-        (.replaceWith pre (TextNode. (str "PEELCODE" i "END")))))
+            ticks (fence-ticks raw)
+            fence (str ticks (or lang "") "\n" raw "\n" ticks)
+            key   (str "PEELCODE" nonce i "END")]
+        (swap! fences conj [key fence])
+        (.replaceWith pre (TextNode. key))))
     (let [normalized (normalize (.text clone))
-          restored   (reduce-kv (fn [s i fence]
-                                  (str/replace s (str "PEELCODE" i "END")
-                                               (str "\n\n" fence "\n\n")))
-                                normalized
-                                (vec @fences))]
+          restored   (reduce (fn [s [key fence]]
+                               (str/replace s key (str "\n\n" fence "\n\n")))
+                             normalized
+                             @fences)]
       (-> restored
           (str/replace #"\n{3,}" "\n\n")
           str/trim))))
