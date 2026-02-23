@@ -16,10 +16,8 @@
                   (do (doseq [toolbar (.select tmpl "div[data-exclude-copy=true]")]
                         (.remove toolbar))
                       {:role :assistant
-                       :text (text/normalize (.text tmpl))})
+                       :text (text/element->md tmpl)})
                   {:role :user
-                   :text (-> (.selectFirst el "span.whitespace-pre-wrap")
-                             .text
-                             text/normalize)}))))
+                   :text (text/element->md (.selectFirst el "span.whitespace-pre-wrap"))}))))
        (remove (comp str/blank? :text))
        vec))

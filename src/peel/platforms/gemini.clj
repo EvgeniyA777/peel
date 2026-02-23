@@ -13,11 +13,10 @@
        (map (fn [el]
               (if (= "user-query" (.tagName el))
                 {:role :user
-                 :text (-> (.text el)
-                           (str/replace-first #"^You said\s+" "")
-                           text/normalize)}
+                 :text (-> (text/element->md el)
+                           (str/replace-first #"^You said\s+" ""))}
                 (let [mc (.selectFirst el "message-content")]
                   {:role :assistant
-                   :text (text/normalize (.text (or mc el)))}))))
+                   :text (text/element->md (or mc el))}))))
        (remove (comp str/blank? :text))
        vec))

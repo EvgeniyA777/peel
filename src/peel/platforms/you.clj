@@ -26,12 +26,11 @@
               (let [tid (.attr el "data-testid")]
                 (if (.contains tid "question")
                   {:role :user
-                   :text (text/normalize (.text el))}
+                   :text (text/element->md el)}
                   (do
                     (clean-answer el)
                     {:role :assistant
-                     :text (-> (.text el)
-                               (str/replace #" +([.!?,;:])" "$1")
-                               text/normalize)})))))
+                     :text (-> (text/element->md el)
+                               (str/replace #" +([.!?,;:])" "$1"))})))))
        (remove (comp str/blank? :text))
        vec))

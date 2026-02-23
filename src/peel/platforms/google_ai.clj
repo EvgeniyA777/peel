@@ -15,6 +15,6 @@
               (doseq [btn (.select el "button")]
                 (.remove btn))
               {:role (if (.hasClass el "sUKAcb") :user :assistant)
-               :text (text/normalize (.text el))}))
+               :text (text/element->md el)}))
        (remove (comp str/blank? :text))
        vec))

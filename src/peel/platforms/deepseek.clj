@@ -26,13 +26,6 @@
       (when (= 1 (count unique))
         (first unique)))))
 
-(defn- clean [s]
-  (-> s
-      (str/replace "\u2028" "\n")                                 ; line separator → newline
-      (str/replace "\u2029" "\n")                                 ; paragraph separator → newline
-      (str/replace #"[\uD800-\uDFFF]" "")                        ; remove surrogate pairs (emoji outside BMP)
-      text/normalize))
-
 (defn extract [^org.jsoup.nodes.Document doc]
   (let [elements  (seq (.select doc ".ds-message"))
         user-cls  (detect-user-class elements)]
@@ -49,6 +42,9 @@
                   (doseq [banner (.select el "div.md-code-block-banner")]
                     (.remove banner))
                   {:role (if (.hasClass el user-cls) :user :assistant)
-                   :text (clean (.text el))}))
+                   :text (-> (text/element->md el)
+                             (str/replace "\u2028" "\n")
+                             (str/replace "\u2029" "\n")
+                             (str/replace #"[\uD800-\uDFFF]" ""))}))
            (remove (comp str/blank? :text))
            vec))))

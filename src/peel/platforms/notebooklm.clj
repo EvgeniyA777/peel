@@ -13,9 +13,7 @@
               (doseq [noise (.select el "mat-card-actions, span[aria-label]")]
                 (.remove noise))
               {:role (if (.selectFirst el "div.from-user-container") :user :assistant)
-               :text (-> (.selectFirst el ".message-text-content")
-                         (.text)
-                         (str/replace #" +([.!?,;:])" "$1")
-                         text/normalize)}))
+               :text (-> (text/element->md (.selectFirst el ".message-text-content"))
+                         (str/replace #" +([.!?,;:])" "$1"))}))
        (remove (comp str/blank? :text))
        vec))

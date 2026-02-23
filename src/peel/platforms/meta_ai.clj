@@ -13,15 +13,13 @@
        (map (fn [el]
               (if (.contains (.attr el "class") "user")
                 {:role :user
-                 :text (-> (.selectFirst el ".bg-fill-secondary")
-                           .text
-                           text/normalize)}
+                 :text (text/element->md (.selectFirst el ".bg-fill-secondary"))}
                 (do
                   (doseq [cite (.select el "[data-testid=citation-pill],[data-testid=sources-pill]")]
                     (.remove cite))
                   (doseq [ui (.select el "div[data-streamdown=code-block-header],span.text-caption-1")]
                     (.remove ui))
                   {:role :assistant
-                   :text (text/normalize (.text el))}))))
+                   :text (text/element->md el)}))))
        (remove (comp str/blank? :text))
        vec))

@@ -27,6 +27,6 @@
               {:role (if (.contains (.attr el "class") "group/query")
                        :user
                        :assistant)
-               :text (text/normalize (.text el))}))
+               :text (text/element->md el)}))
        (remove (comp str/blank? :text))
        vec))

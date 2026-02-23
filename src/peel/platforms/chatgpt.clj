@@ -10,12 +10,12 @@
 (defn- extract-text [el role]
   (case role
     "user"      (let [div (.selectFirst el "div.whitespace-pre-wrap")]
-                  (if div (.text div) ""))
+                  (if div (text/element->md div) ""))
     "assistant" (let [div (.selectFirst el "div.markdown")]
                   (if div
                     (do (doseq [toolbar (.select div "div[class*=bg-token-sidebar-surface-primary]")]
                           (.remove toolbar))
-                        (.text div))
+                        (text/element->md div))
                     ""))
     ""))
 
@@ -24,6 +24,6 @@
        (map (fn [el]
               (let [role (.attr el "data-turn")]
                 {:role (keyword role)
-                 :text (text/normalize (extract-text el role))})))
+                 :text (extract-text el role)})))
        (remove (comp str/blank? :text))
        vec))

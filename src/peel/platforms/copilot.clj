@@ -14,10 +14,8 @@
               (let [cls (.attr el "class")]
                 (if (.contains cls "user")
                   {:role :user
-                   :text (-> (or (.selectFirst el ".whitespace-pre-wrap") el)
-                             .text
-                             text/normalize)}
+                   :text (text/element->md (or (.selectFirst el ".whitespace-pre-wrap") el))}
                   {:role :assistant
-                   :text (text/normalize (.text el))}))))
+                   :text (text/element->md el)}))))
        (remove (comp str/blank? :text))
        vec))

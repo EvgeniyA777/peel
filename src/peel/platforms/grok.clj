@@ -18,6 +18,6 @@
               {:role (if (.contains (.attr el "class") "bg-surface-l1")
                        :user
                        :assistant)
-               :text (text/normalize (.text el))}))
+               :text (text/element->md el)}))
        (remove (comp str/blank? :text))
        vec))

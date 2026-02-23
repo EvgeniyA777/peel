@@ -16,12 +16,11 @@
                 (.remove btn))
               (if (= "user-message" (.attr el "data-testid"))
                 {:role :user
-                 :text (text/normalize (.text el))}
+                 :text (text/element->md el)}
                 (let [blocks (.select el ".standard-markdown")]
                   {:role :assistant
                    :text (->> (if (seq blocks) blocks [el])
-                              (map #(.text %))
-                              (str/join "\n\n")
-                              text/normalize)}))))
+                              (map text/element->md)
+                              (str/join "\n\n"))}))))
        (remove (comp str/blank? :text))
        vec))

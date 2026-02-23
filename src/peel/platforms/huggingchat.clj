@@ -13,11 +13,11 @@
               (let [p (.selectFirst el "p.whitespace-break-spaces")]
                 (if p
                   {:role :user
-                   :text (text/normalize (.text p))}
+                   :text (text/element->md p)}
                   (let [prose (.selectFirst el ".prose")]
                     (doseq [overlay (.select prose "div.pointer-events-none.sticky")]
                       (.remove overlay))
                     {:role :assistant
-                     :text (text/normalize (.text prose))})))))
+                     :text (text/element->md prose)})))))
        (remove (comp str/blank? :text))
        vec))
