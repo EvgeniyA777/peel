@@ -52,9 +52,14 @@
      :platform platform
      :messages (extract doc)}))
 
+(defn- expand-home [path]
+  (if (str/starts-with? path "~/")
+    (str (System/getProperty "user.home") (subs path 1))
+    path))
+
 (defn- parse-opt [opts prefix]
   (some #(when (str/starts-with? % prefix)
-           (subs % (count prefix)))
+           (expand-home (subs % (count prefix))))
         opts))
 
 (defn- html-files [path]

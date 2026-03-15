@@ -5,7 +5,8 @@
                :requires ([peel.core])
                :task     (apply peel.core/-main *command-line-args*)}
          test {:doc      "Run all tests"
-               :requires ([peel.output-test]
+               :requires ([peel.text-test]
+                          [peel.output-test]
                           [peel.deepseek-test]
                           [peel.chatgpt-test]
                           [peel.claude-test]
