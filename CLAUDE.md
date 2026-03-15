@@ -14,6 +14,36 @@ bb peel "chat.html" --md --out=/path/to/kb/     # file → directory
 
 Requires [babashka](https://github.com/babashka/babashka).
 
+## Documentation canon
+
+- `README.md` — user-facing CLI contract and supported platforms
+- `CLAUDE.md` — agent/developer operating guide
+- `PROJECT.md` — project metadata and document map
+- `adr/` — architecture decisions
+- `notes/` — working notes only, not canonical product docs
+
+## Documentation rules
+
+- Canonical project docs are written in English
+- Local operator folder names are not product concepts
+- Keep user-facing behavior in `README.md`
+- Keep implementation workflow in `CLAUDE.md`
+- Keep architectural rationale in `adr/`
+
+## External input folders
+
+`peel` works on any external folder containing saved chat `.html` files.
+Do not treat local directory names as product concepts.
+
+Examples of valid inputs:
+
+- `~/Downloads/ai-chats/`
+- `~/archive/chat-html/`
+- a temporary evaluation corpus
+- a personal export folder
+
+Local folder names are operator conventions only and should not appear in canonical `peel` documentation as if they were part of the system.
+
 ## Architecture
 
 ```
@@ -28,7 +58,7 @@ Key files:
 - `src/peel/core.clj` — entry point, `extractors` map, file/dir handling
 - `src/peel/detect.clj` — platform detection via Jsoup CSS selectors
 - `src/peel/output.clj` — EDN / JSON / Markdown rendering
-- `src/peel/text.clj` — `normalize` fn (strips emoji, collapses whitespace) and `element->md` fn (extracts text with code blocks as fenced Markdown)
+- `src/peel/text.clj` — HTML/text normalization and DOM-to-Markdown conversion helpers
 - `src/peel/platforms/<name>.clj` — one file per platform
 
 ## Data structures
@@ -71,7 +101,7 @@ Three files to touch, always the same pattern:
 ```
 
 - Use Jsoup CSS selectors: `.class`, `[attr]`, `[attr=value]`, `tag[attr*=substr]`
-- Call `text/element->md` on all elements — normalizes text and renders `<pre><code>` as fenced Markdown
+- Call `text/element->md` on extracted message elements
 - Return empty strings filtered out via `(remove (comp str/blank? :text))`
 - Remove UI noise (badges, toolbars) with `(.remove el)` before calling `element->md`; buttons are removed automatically inside `element->md`
 
@@ -105,7 +135,7 @@ bb test
 
 Automatically deletes all `.md`, `.json`, `.edn` from `test/peel/fixtures/` before running — each run starts clean.
 
-35 tests, four kinds:
+The test suite has four kinds of checks:
 
 | Test | File | Fixture | Runs without real HTML |
 |---|---|---|---|
@@ -159,6 +189,18 @@ Also add the namespace to the `:requires` of the `test` task in `bb.edn`.
 **Google AI** — extracts from Google Search AI Mode (`google.com/search`), not Gemini. Detected separately from `gemini.google.com`.
 
 **NotebookLM** — uses Angular custom elements (`<chat-message>`). Pages without a dialogue (summary-only) have no `<chat-message>` elements and return `[]` naturally. Citation spans (`<span aria-label="N: Source Title">`) must be removed before text extraction. After removal, space-before-punctuation artifacts are fixed with `str/replace #" +([.!?,;:])" "$1"`. The Pin/toolbar is inside `mat-card-actions`.
+
+## MCP: semantic-code-indexing policy
+
+When the `semantic-code-indexing` MCP server is available, always use it:
+
+1. **Session start** — `create_index` → `repo_map` for project orientation. Do not manually read files to understand project structure.
+2. **Before refactoring** a public function — `impact_analysis` to find all call sites and downstream effects.
+3. **Understanding data flow** between modules — `resolve_context` on the function/var in question.
+4. **Reviewing API surface** — `skeletons` instead of reading full source files.
+5. **Deep exploration** — `expand_context` / `fetch_context_detail` instead of Agent(Explore).
+
+Load all MCP tool schemas at session start (`ToolSearch` with `+semantic-code-indexing`). Do not fall back to manual Read/Grep/Agent(Explore) for tasks these tools cover.
 
 ## Jsoup quick reference
 

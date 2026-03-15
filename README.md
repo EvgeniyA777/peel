@@ -10,6 +10,18 @@ Babashka CLI for extracting chat dialogues from saved AI chat web pages into EDN
 
 Open the chat in your browser and save the page as a single HTML file. The recommended way is the [SingleFile](https://github.com/gildas-lormeau/SingleFile) browser extension — it packs everything (styles, scripts, images) into one `.html` file. Other browser save methods work too, as long as the full chat DOM is present.
 
+## External input folders
+
+`peel` does not define or depend on any special corpus directory name.
+Any external folder that contains saved chat `.html` files can be used as input:
+
+- `~/Downloads/ai-chats/`
+- `~/archive/chat-html/`
+- a temporary evaluation folder
+- a personal export archive
+
+Directory names are local operator conventions only, not part of the `peel` system model or documentation canon.
+
 ## Supported platforms
 
 | Platform | Web URL | Status |
@@ -70,6 +82,22 @@ bb peel test/peel/fixtures/claude-sample.html --out=test/peel/fixtures/
 - `--md` — Markdown, suitable for knowledge bases and chunking pipelines
 - `--json` — JSON
 - (default) — EDN
+
+## Documentation canon
+
+- `README.md` — user-facing CLI contract: purpose, usage, supported platforms
+- `CLAUDE.md` — agent/developer guide: architecture, extractor patterns, testing workflow
+- `PROJECT.md` — project metadata and documentation map
+- `adr/` — architecture decisions
+- `notes/` — working notes only, not canonical product documentation
+
+## Documentation rules
+
+- Canonical project docs are written in English
+- Local folder names and operator conventions are not product concepts
+- User-facing behavior belongs in `README.md`
+- Implementation workflow belongs in `CLAUDE.md`
+- Architectural decisions belong in `adr/`
 
 ## Contributing: adding a platform
 
