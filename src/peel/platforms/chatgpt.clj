@@ -5,7 +5,7 @@
 ;; Each conversational turn is wrapped in an <article data-turn=user|assistant>.
 ;; User text lives in div.whitespace-pre-wrap (plain text, no markdown).
 ;; Assistant text lives in div.markdown (rendered HTML — paragraphs, lists, code).
-(def ^:private turn-selector "article[data-turn]")
+(def ^:private turn-selector "article[data-turn], section[data-turn]")
 
 (defn- extract-text [el role]
   (case role
